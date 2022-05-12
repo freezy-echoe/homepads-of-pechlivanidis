@@ -7,11 +7,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useContext, useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CancelIcon from '@mui/icons-material/Cancel';
-import SearchIcon from '@mui/icons-material/Search';
 import classes from '../utils/classes';
 import { getError } from '../utils/error';
 import Cookies from 'js-cookie';
-import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
@@ -33,7 +31,6 @@ import {
   ListItem,
   Divider,
   ListItemText,
-  InputBase,
 } from '@mui/material';
 
 import { Store } from '../utils/Store';
