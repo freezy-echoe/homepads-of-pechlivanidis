@@ -1,11 +1,9 @@
 {
-  "homepage":"http://Freezy_Echoe.github.io/homepads-of-pechlivanidis",
   "name": "homepads-of-pechlivanidis",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predeploy":"npm run build",
-    "deploy": "gh-pages -d build",
+    
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
