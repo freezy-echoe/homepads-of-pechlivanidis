@@ -13,8 +13,6 @@ import React, { useContext, useState } from 'react';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import Cookies from 'js-cookie';
-//import { useSnackbar } from 'notistack';
-//import { getError } from '../utils/error';
 import Form from '../components/Form';
 import classes from '../utils/classes';
 
