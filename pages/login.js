@@ -9,15 +9,13 @@ import {
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import Cookies from 'js-cookie';
-import { Controller, useForm } from 'react-hook-form';
 //import { useSnackbar } from 'notistack';
 //import { getError } from '../utils/error';
 import Form from '../components/Form';
-import { useSnackbar } from 'notistack';
 import classes from '../utils/classes';
 
 export default function Login() {
