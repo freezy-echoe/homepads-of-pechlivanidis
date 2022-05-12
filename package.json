@@ -1,8 +1,11 @@
 {
+  "homepage":"http://Freezy_Echoe.github.io/homepads-of-pechlivanidis",
   "name": "homepads-of-pechlivanidis",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predeploy":"npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -33,6 +36,7 @@
   },
   "devDependencies": {
     "eslint": "8.13.0",
-    "eslint-config-next": "12.1.4"
+    "eslint-config-next": "12.1.4",
+    "gh-pages": "^4.0.0"
   }
 }
