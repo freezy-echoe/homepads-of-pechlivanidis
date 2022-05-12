@@ -17,17 +17,18 @@ import { Controller, useForm } from 'react-hook-form';
 //import { useSnackbar } from 'notistack';
 //import { getError } from '../utils/error';
 import Form from '../components/Form';
+import { useSnackbar } from 'notistack';
+import classes from '../utils/classes';
 
 export default function Login() {
   const router = useRouter();
-  const { redirect } = router.query;
+  const { redirect } = router.query; // login?redirect=/shipping
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
-  useEffect(() => {
-    if (userInfo) {
-      router.push('/');
-    }
-  }, []);
+  if (userInfo) {
+    router.push('/');
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const submitHandler = async (e) => {
@@ -46,7 +47,7 @@ export default function Login() {
   };
   return (
     <Layout title="Login">
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={submitHandler} sx={classes.form}>
         <Typography component="h1" variant="h1">
           Login
         </Typography>

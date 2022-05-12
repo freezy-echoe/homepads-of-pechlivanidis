@@ -9,5 +9,6 @@ export default function Shipping() {
   if (!userInfo) {
     router.push('/login?redirect=/shipping');
   }
-  return <div>Shipping</div>;
+
+  return <div>Shipping page</div>;
 }
