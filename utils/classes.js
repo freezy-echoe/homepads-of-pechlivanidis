@@ -35,7 +35,7 @@ const classes = {
     margin: '0 auto',
   },
   navbarButton: {
-    color: '#ffffff',
+    color: '##fffff',
     textTransform: 'initial',
   },
 };

@@ -3,14 +3,9 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import { createTheme } from '@mui/material/styles';
 
-import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useContext, useEffect, useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import CancelIcon from '@mui/icons-material/Cancel';
+import React, { useContext, useState } from 'react';
 import classes from '../utils/classes';
-import { getError } from '../utils/error';
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import {
@@ -25,12 +20,6 @@ import {
   Menu,
   MenuItem,
   Box,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
 } from '@mui/material';
 
 import { Store } from '../utils/Store';
@@ -73,29 +62,6 @@ export default function Layout({ title, description, children }) {
 
   const router = useRouter();
 
-  const [sidbarVisible, setSidebarVisible] = useState(false);
-  const sidebarOpenHandler = () => {
-    setSidebarVisible(true);
-  };
-  const sidebarCloseHandler = () => {
-    setSidebarVisible(false);
-  };
-
-  const [categories, setCategories] = useState([]);
-
-  const fetchCategories = async () => {
-    try {
-      const { data } = await axios.get(`/api/products/categories`);
-      setCategories(data);
-    } catch (err) {
-      getError(err), { variant: 'error' };
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   const darkModeChangeHandler = () => {
     dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
     const newDarkMode = !darkMode;
@@ -121,9 +87,8 @@ export default function Layout({ title, description, children }) {
     router.push('/');
   };
 
-  const isDesktop = useMediaQuery('(min-width:600px)');
   return (
-    <>
+    <Box>
       <Head>
         <title>{title ? `${title} - Next Amazona` : 'Next Amazona'}</title>
         {description && <meta name="description" content={description}></meta>}
@@ -131,63 +96,15 @@ export default function Layout({ title, description, children }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar position="static" sx={classes.appbar}>
-          <Toolbar sx={classes.toolbar}>
-            <Box display="flex" alignItems="center">
-              <IconButton
-                edge="start"
-                aria-label="open drawer"
-                onClick={sidebarOpenHandler}
-                sx={classes.menuButton}
-              >
-                <MenuIcon sx={classes.navbarButton} />
-              </IconButton>
-              <NextLink href="/" passHref>
-                <Link>
-                  <Typography sx={classes.brand}>amazona</Typography>
-                </Link>
-              </NextLink>
-            </Box>
-            <Drawer
-              anchor="left"
-              open={sidbarVisible}
-              onClose={sidebarCloseHandler}
-            >
-              <List>
-                <ListItem>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <Typography>Shopping by category</Typography>
-                    <IconButton
-                      aria-label="close"
-                      onClick={sidebarCloseHandler}
-                    >
-                      <CancelIcon />
-                    </IconButton>
-                  </Box>
-                </ListItem>
-                <Divider light />
-                {categories.map((category) => (
-                  <NextLink
-                    key={category}
-                    href={`/search?category=${category}`}
-                    passHref
-                  >
-                    <ListItem
-                      button
-                      component="a"
-                      onClick={sidebarCloseHandler}
-                    >
-                      <ListItemText primary={category}></ListItemText>
-                    </ListItem>
-                  </NextLink>
-                ))}
-              </List>
-            </Drawer>
-
-            <Box sx={isDesktop ? classes.visible : classes.hidden}></Box>
+          <Toolbar>
+            <NextLink href="/" passHref>
+              <Link>
+                <Typography sx={classes.brand}>
+                  Homepads of Pechlivanidis
+                </Typography>
+              </Link>
+            </NextLink>
+            <Box sx={classes.grow}></Box>
             <Box>
               <Switch
                 checked={darkMode}
@@ -195,18 +112,16 @@ export default function Layout({ title, description, children }) {
               ></Switch>
               <NextLink href="/cart" passHref>
                 <Link>
-                  <Typography component="span">
-                    {cart.cartItems.length > 0 ? (
-                      <Badge
-                        color="secondary"
-                        badgeContent={cart.cartItems.length}
-                      >
-                        Cart
-                      </Badge>
-                    ) : (
-                      'Cart'
-                    )}
-                  </Typography>
+                  {cart.cartItems.length > 0 ? (
+                    <Badge
+                      color="secondary"
+                      badgeContent={cart.cartItems.length}
+                    >
+                      Cart
+                    </Badge>
+                  ) : (
+                    'Cart'
+                  )}
                 </Link>
               </NextLink>
               {userInfo ? (
@@ -226,47 +141,29 @@ export default function Layout({ title, description, children }) {
                     open={Boolean(anchorEl)}
                     onClose={loginMenuCloseHandler}
                   >
-                    <MenuItem
-                      onClick={(e) => loginMenuCloseHandler(e, '/profile')}
-                    >
-                      Profile
+                    <MenuItem onClick={loginMenuCloseHandler}>Profile</MenuItem>
+                    <MenuItem onClick={loginMenuCloseHandler}>
+                      My account
                     </MenuItem>
-                    <MenuItem
-                      onClick={(e) =>
-                        loginMenuCloseHandler(e, '/order-history')
-                      }
-                    >
-                      Order Hisotry
-                    </MenuItem>
-                    {userInfo.isAdmin && (
-                      <MenuItem
-                        onClick={(e) =>
-                          loginMenuCloseHandler(e, '/admin/dashboard')
-                        }
-                      >
-                        Admin Dashboard
-                      </MenuItem>
-                    )}
                     <MenuItem onClick={logoutClickHandler}>Logout</MenuItem>
                   </Menu>
                 </>
               ) : (
                 <NextLink href="/login" passHref>
-                  <Link>
-                    <Typography component="span">Login</Typography>
-                  </Link>
+                  <Link>Login</Link>
                 </NextLink>
               )}
             </Box>
           </Toolbar>
         </AppBar>
-        <Container component="main" sx={classes.main}>
-          {children}
-        </Container>
+        <Container sx={classes.main}>{children}</Container>
         <Box component="footer" sx={classes.footer}>
+          <Typography>
+            Please contact: <b>homepadsp@gmail.com</b> for sales
+          </Typography>
           <Typography>All rights reserved. Next Amazona.</Typography>
         </Box>
       </ThemeProvider>
-    </>
+    </Box>
   );
 }
